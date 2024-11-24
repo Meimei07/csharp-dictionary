@@ -1,0 +1,7 @@
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\bin\Debug\Practice-exam1.exe.config
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\bin\Debug\Practice-exam1.exe
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\bin\Debug\Practice-exam1.pdb
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\obj\Debug\Practice-exam1.csproj.AssemblyReference.cache
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\obj\Debug\Practice-exam1.csproj.CoreCompileInputs.cache
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\obj\Debug\Practice-exam1.exe
+D:\C# term2\Exam\Practice-exam1\Practice-exam1\obj\Debug\Practice-exam1.pdb
