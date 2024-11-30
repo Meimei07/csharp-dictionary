@@ -15,7 +15,7 @@ namespace Practice_exam1
             this.dictionary = customDictionary;
         }
 
-        public void StartDictionaryMenu()
+        public void StartDictionaryMenu(string dictionaryType)
         {
             Console.WriteLine(@"========== Dictionary Menu ==========
 1. Add word/translation
@@ -29,17 +29,17 @@ namespace Practice_exam1
 
             switch(option)
             {
-                case 1: AddWordTranslation(); break;
-                case 2: RemoveWordTranslation(); break;
-                case 3: ReplaceWordTranslation(); break;
-                case 4: SearchWord(); break;
-                case 5: ShowAllWords(); break;
+                case 1: AddWordTranslation(dictionaryType); break;
+                case 2: RemoveWordTranslation(dictionaryType); break;
+                case 3: ReplaceWordTranslation(dictionaryType); break;
+                case 4: SearchWord(dictionaryType); break;
+                case 5: ShowAllWords(dictionaryType); break;
                 case 0: BackToMainMenu(); break;
-                default: StartDictionaryMenu(); break;
+                default: StartDictionaryMenu(dictionaryType); break;
             }
         }
 
-        public void AddWordTranslation()
+        public void AddWordTranslation(string dictionaryType)
         {
             Console.WriteLine(@" 1. Add word with translations
  2. Add translation to existing word
@@ -49,47 +49,26 @@ namespace Practice_exam1
 
             switch(option)
             {
-                case 1: addWordTrans(); break;
-                case 2: addTrans(); break;
-                case 0: StartDictionaryMenu(); break;
-                default: AddWordTranslation(); break;
+                case 1: addWordTrans(dictionaryType); break;
+                case 2: addTrans(dictionaryType); break;
+                case 0: StartDictionaryMenu(dictionaryType); break;
+                default: AddWordTranslation(dictionaryType); break;
             }
         }
 
-        public void addWordTrans()
+        public void addWordTrans(string dictionaryType)
         {
-            Console.Write("Enter word: ");
-            string key = Console.ReadLine();
-            
-            List<string> values = new List<string>();
-            string input;
-            do
-            {
-                Console.Write("Enter translation (e to exit): ");
-                input = Console.ReadLine();
-
-                if(input.ToLower() == "e")
-                {
-                    break;
-                }
-
-                values.Add(input);
-            } while (input.ToLower() != "e");
-
-            dictionary.AddWord(new WordTranslation(key, values));
-            AddWordTranslation();
+            dictionary.AddWord(dictionaryType);
+            AddWordTranslation(dictionaryType);
         }
 
-        public void addTrans()
+        public void addTrans(string dictionaryType)
         {
-            Console.Write("Enter word you want to add translation to: ");
-            string key = Console.ReadLine();
-
-            dictionary.AddTranslation(key);
-            AddWordTranslation();
+            dictionary.AddTranslation(dictionaryType);
+            AddWordTranslation(dictionaryType);
         }
 
-        public void RemoveWordTranslation()
+        public void RemoveWordTranslation(string dictionaryType)
         {
             Console.WriteLine(@" 1. Remove word
  2. Remove translation from existing word
@@ -99,32 +78,26 @@ namespace Practice_exam1
 
             switch (option)
             {
-                case 1: removeWord(); break;
-                case 2: removeTrans(); break;
-                case 0: StartDictionaryMenu(); break;
-                default: RemoveWordTranslation(); break;
+                case 1: removeWord(dictionaryType); break;
+                case 2: removeTrans(dictionaryType); break;
+                case 0: StartDictionaryMenu(dictionaryType); break;
+                default: RemoveWordTranslation(dictionaryType); break;
             }
         }
 
-        public void removeWord()
+        public void removeWord(string dictionaryType)
         {
-            Console.Write("Enter word to remove: ");
-            string key = Console.ReadLine();
-
-            dictionary.RemoveWord(key);
-            RemoveWordTranslation();
+            dictionary.RemoveWord(dictionaryType);
+            RemoveWordTranslation(dictionaryType);
         }
 
-        public void removeTrans()
+        public void removeTrans(string dictionaryType)
         {
-            Console.Write("Enter word you want to remove translation: ");
-            string key = Console.ReadLine();
-
-            dictionary.RemoveTranslation(key);
-            RemoveWordTranslation();
+            dictionary.RemoveTranslation(dictionaryType);
+            RemoveWordTranslation(dictionaryType);
         }
 
-        public void ReplaceWordTranslation()
+        public void ReplaceWordTranslation(string dictionaryType)
         {
             Console.WriteLine(@" 1. Replace word
  2. Replace translation from existing word
@@ -134,45 +107,41 @@ namespace Practice_exam1
 
             switch (option)
             {
-                case 1: replaceWord(); break;
-                case 2: replaceTrans(); break;
-                case 0: StartDictionaryMenu(); break;
-                default: ReplaceWordTranslation(); break;
+                case 1: replaceWord(dictionaryType); break;
+                case 2: replaceTrans(dictionaryType); break;
+                case 0: StartDictionaryMenu(dictionaryType); break;
+                default: ReplaceWordTranslation(dictionaryType); break;
             }
         }
 
-        public void replaceWord()
+        public void replaceWord(string dictionaryType)
         {
-            Console.Write("Enter word to replace: ");
+            dictionary.ReplaceWord(dictionaryType);
+            ReplaceWordTranslation(dictionaryType);
+        }
+
+        public void replaceTrans(string dictionaryType)
+        {
+            dictionary.ReplaceTranslation(dictionaryType);
+            ReplaceWordTranslation(dictionaryType);
+        }
+
+        public void SearchWord(string dictionaryType)
+        {
+            Console.Write("Search word: ");
             string key = Console.ReadLine();
 
-            dictionary.ReplaceWord(key);
-            ReplaceWordTranslation();
+            dictionary.SearchWord(key, dictionaryType);
+            StartDictionaryMenu(dictionaryType);
         }
 
-        public void replaceTrans()
+        public void ShowAllWords(string dictionaryType)
         {
-            Console.Write("Enter word you want to replace translation: ");
-            string key = Console.ReadLine();
-
-            dictionary.ReplaceTranslation(key);
-            ReplaceWordTranslation();
+            dictionary.ViewAllWords(dictionaryType);
+            StartDictionaryMenu(dictionaryType);
         }
 
-        public void SearchWord()
-        {
-            Console.Write("Enter word: ");
-            string key = Console.ReadLine();
-
-            dictionary.SearchWord(key);
-            StartDictionaryMenu();
-        }
-
-        public void ShowAllWords()
-        {
-            dictionary.DisplayWords();
-            StartDictionaryMenu();
-        }
+        
 
         public void BackToMainMenu() { }
     }

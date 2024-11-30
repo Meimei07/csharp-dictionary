@@ -27,10 +27,10 @@ namespace Practice_exam1
             this.Translations = translations;
         }
 
-        public void addTranslation()
+        public void addTranslation(string dictionaryType)
         {
             Console.Write("Enter translation: ");
-            string translation = Console.ReadLine();
+            string translation = Console.ReadLine(); 
 
             if (!Translations.Contains(translation))
             {
@@ -67,28 +67,28 @@ namespace Practice_exam1
             }
         }
 
-        public void replaceWord()
+        public void replaceWord(List<WordTranslation> WordTranslations)
         {
             Console.Write("Enter new word: ");
             string newWord = Console.ReadLine();
 
-            //bool exist = false;
-            //foreach(WordTranslation wordTranslation in wordTranslations)
-            //{
-            //    if(wordTranslation.Word == newWord)
-            //    {
-            //        exist = true;
-            //    }
-            //}
-
-            if (Word != newWord)
+            bool exist = false;
+            foreach (WordTranslation wordTranslation in WordTranslations)
             {
-                Word = newWord;
-                Console.WriteLine("word replaced success");
+                if (wordTranslation.Word == newWord)
+                {
+;                   exist = true;
+                }
+            }
+
+            if(exist == true)
+            {
+                Console.WriteLine("word already exist");
             }
             else
             {
-                Console.WriteLine("word already exist");
+                Word = newWord;
+                Console.WriteLine("word replaced success");
             }
         }
 
@@ -126,7 +126,7 @@ namespace Practice_exam1
             {
                 Console.Write($"   {i + 1}. {Translations[i]}");
             }
-            Console.WriteLine("\n");
+            Console.WriteLine();
         }
     }
 }

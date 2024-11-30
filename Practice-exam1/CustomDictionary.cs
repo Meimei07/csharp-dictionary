@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,9 @@ namespace Practice_exam1
     public class CustomDictionary
     {
         public string DictionaryType;
-        public List<WordTranslation> WordTranslations = new List<WordTranslation>();
+        private List<WordTranslation> WordTranslations = new List<WordTranslation>();
+        private IOManager io = new IOManager();
+        private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
 
         public CustomDictionary() { }
         public CustomDictionary(string dictionaryType)
@@ -22,32 +25,80 @@ namespace Practice_exam1
             Console.WriteLine($" {DictionaryType}");
         }
 
-        public void DisplayWords()
+        public void ViewAllWords(string dictionaryType)
         {
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
             foreach(WordTranslation wordTranslation in WordTranslations)
             {
                 wordTranslation.Display();
             }
         }
 
-        public WordTranslation FindWord(string word)
+        public int DisplayWordsToSelect(string dictionaryType)
         {
-            foreach (WordTranslation wordTranslation in WordTranslations)
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            int index = 1;
+            foreach(WordTranslation wordTranslation in WordTranslations)
             {
-                if (wordTranslation.Word == word)
-                {
-                    return wordTranslation;
-                }
+                Console.WriteLine($"{index}. {wordTranslation.Word}");
+                index++;
             }
-            return null;
+            Console.Write("Select word: ");
+            int selected = int.Parse(Console.ReadLine());
+
+            return selected;
         }
 
-        public void AddWord(WordTranslation wordTranslation)
+        public WordTranslation FindWord(string word, string dictionaryType)
         {
-            if(FindWord(wordTranslation.Word) == null)
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            WordTranslation wordTranslation = WordTranslations.Find(w => w.Word == word);
+
+            if(wordTranslation != null)
             {
-                WordTranslations.Add(wordTranslation);
-                Console.WriteLine("word/translations added success");
+                return wordTranslation;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void AddWord(string dictionaryType)
+        {
+            Console.Write("Enter word: ");
+            string key = Console.ReadLine();
+
+            //check if word already exist
+            if (FindWord(key, dictionaryType) == null)
+            {
+                List<string> values = new List<string>();
+                string input;
+                do
+                {
+                    Console.Write("Enter translation (e to exit): ");
+                    input = Console.ReadLine();
+
+                    if (input.ToLower() == "e")
+                    {
+                        break;
+                    }
+
+                    values.Add(input);
+                } while (input.ToLower() != "e");
+
+                //read from file
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+                WordTranslations.Add(new WordTranslation(key, values));
+                Console.WriteLine("word added success");
+
+                //write to file
+                io.WriteJson(path, dictionaryType, WordTranslations);
             }
             else
             {
@@ -55,75 +106,111 @@ namespace Practice_exam1
             }
         }
 
-        public void AddTranslation(string word)
+        public void AddTranslation(string dictionaryType)
         {
-            WordTranslation wordTranslation = FindWord(word);
-            if(wordTranslation != null)
+            int selected = DisplayWordsToSelect(dictionaryType);
+
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);        
+
+            if(selected > 0 && selected <= WordTranslations.Count)
             {
-                wordTranslation.addTranslation();
+                WordTranslation wordTranslation = WordTranslations[selected - 1];
+                wordTranslation.addTranslation(dictionaryType);
+
+                //write to file
+                io.WriteJson(path, dictionaryType, WordTranslations);
             }
             else
             {
-                Console.WriteLine("word doesn't exist");
+                Console.WriteLine("invalid selection");
             }
         }
 
-        public void RemoveWord(string word)
+        public void RemoveWord(string dictionaryType)
         {
-            WordTranslation wordTranslation = FindWord(word);
-            if (wordTranslation != null)
+            int selected = DisplayWordsToSelect(dictionaryType);
+
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            if(selected > 0 && selected <= WordTranslations.Count)
             {
-                WordTranslations.Remove(wordTranslation);
-                Console.WriteLine("removed success");
+                WordTranslations.RemoveAt(selected - 1);
+                Console.WriteLine("word removed success");
+
+                //write to file
+                io.WriteJson(path, dictionaryType, WordTranslations);
             }
             else
             {
-                Console.WriteLine("word doesn't exist");
+                Console.WriteLine("invalid selection");
             }
         }
 
-        public void RemoveTranslation(string word)
+        public void RemoveTranslation(string dictionaryType)
         {
-            WordTranslation wordTranslation = FindWord(word);
-            if(wordTranslation != null)
+            int selected = DisplayWordsToSelect(dictionaryType);
+
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            if (selected > 0 && selected <= WordTranslations.Count)
             {
+                WordTranslation wordTranslation = WordTranslations[selected - 1];
                 wordTranslation.removeTranslation();
+
+                //write to file
+                io.WriteJson(path, dictionaryType, WordTranslations);
             }
             else
             {
-                Console.WriteLine("word doesn't exist");
+                Console.WriteLine("invalid selection");
             }
         }
 
-        public void ReplaceWord(string word)
+        public void ReplaceWord(string dictionaryType)
         {
-            WordTranslation wordTranslation = FindWord(word);
-            if (wordTranslation != null)
+            int selection = DisplayWordsToSelect(dictionaryType);
+
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            if(selection > 0 && selection <= WordTranslations.Count)
             {
-                wordTranslation.replaceWord();
+                WordTranslation wordTranslation = WordTranslations[selection - 1];
+                wordTranslation.replaceWord(WordTranslations);
             }
             else
             {
-                Console.WriteLine("word doesn't exist");
+                Console.WriteLine("invalid selection");
             }
         }
 
-        public void ReplaceTranslation(string word)
+        public void ReplaceTranslation(string dictionaryType)
         {
-            WordTranslation wordTranslation = FindWord(word);
-            if(wordTranslation != null)
+            int selection = DisplayWordsToSelect(dictionaryType);
+
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            if (selection > 0 && selection <= WordTranslations.Count)
             {
+                WordTranslation wordTranslation = WordTranslations[selection - 1];
                 wordTranslation.replaceTranslation();
+
+                //write to file
+                io.WriteJson(path, dictionaryType, WordTranslations);
             }
             else
             {
-                Console.WriteLine("word doesn't exist");
+                Console.WriteLine("invalid selection");
             }
         }
 
-        public void SearchWord(string word)
+        public void SearchWord(string word, string dictionaryType)
         {
-            WordTranslation wordTranslation = FindWord(word);
+            WordTranslation wordTranslation = FindWord(word, dictionaryType);
             if (wordTranslation != null)
             {
                 wordTranslation.Display();
