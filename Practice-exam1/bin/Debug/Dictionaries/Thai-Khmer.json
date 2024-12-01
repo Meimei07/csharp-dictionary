@@ -1,1 +1,15 @@
-[]
+[
+    {
+        "Word": "hi",
+        "Translations": [
+            "hellooo"
+        ]
+    },
+    {
+        "Word": "noo",
+        "Translations": [
+            "yess",
+            "thanks"
+        ]
+    }
+]

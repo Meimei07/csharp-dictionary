@@ -27,6 +27,7 @@ namespace Practice_exam1
             string fullPath = path + @"\" + fileName + extension;
             StreamReader streamReader=new StreamReader(fullPath);
             string cotent = streamReader.ReadToEnd();
+            streamReader.Close();
             return JsonConvert.DeserializeObject<T>(cotent);
         }
 

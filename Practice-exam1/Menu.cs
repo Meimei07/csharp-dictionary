@@ -12,7 +12,8 @@ namespace Practice_exam1
         private List<CustomDictionary> Dictionaries = new List<CustomDictionary>();
         private CustomDictionary dictionary;
         private IOManager io = new IOManager();
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
+        //private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
+        private string path = Directory.GetCurrentDirectory() + @"\Dictionaries";
 
         public void StartMenu()
         {
@@ -38,17 +39,24 @@ namespace Practice_exam1
             string type = Console.ReadLine();
 
             //check if file type already exist
-
-            Dictionaries.Add(new CustomDictionary(type));
-            Console.WriteLine("dictionary added success");
-            io.WriteJson(path, type, new List<WordTranslation>());
+            List<FileInfo> files = io.LoadFiles(path);
+            
+            if(files.Where(file => file.Name == type) == null)
+            {
+                Dictionaries.Add(new CustomDictionary(type));
+                Console.WriteLine("dictionary added success");
+                io.WriteJson(path, type, new List<WordTranslation>());
+            }
+            else
+            {
+                Console.WriteLine("dictionary type already exist");
+            }
 
             StartMenu();
         }
 
         public void Show()
         {
-            //doesn't show files yet
             Console.WriteLine("Dictionaries...");
             List<FileInfo> dictionaries = io.LoadFiles(path);
 
@@ -66,24 +74,24 @@ namespace Practice_exam1
         public void Select()
         {
             Show();
-            //for(int i=0; i<Dictionaries.Count; i++)
-            //{
-            //    Console.Write($"{i + 1}.");
-            //    Dictionaries[i].DisplayDictionary();
-            //}
 
             List<FileInfo> dictionaries = io.LoadFiles(path);
-            //Dictionaries.AddRange(dictionaries);
 
             Console.Write("Select dictionary: ");
             int selected = int.Parse(Console.ReadLine());
 
             if(selected > 0 && selected <= dictionaries.Count)
             {
+                Dictionaries = dictionaries.Select(file => new CustomDictionary
+                {
+                    DictionaryType = io.GetFileName(file)
+                }).ToList();
+
+                
                 string selectedDictionary = Dictionaries[selected - 1].DictionaryType;
                 Console.WriteLine($"Dictionary {selectedDictionary} is selected.");
 
-                CustomDictionary customDictionary = dictionaries[selected - 1];
+                CustomDictionary customDictionary = Dictionaries[selected - 1];
                 DictionaryMenu dictionaryMenu = new DictionaryMenu(customDictionary);
                 dictionaryMenu.StartDictionaryMenu(selectedDictionary);
             }

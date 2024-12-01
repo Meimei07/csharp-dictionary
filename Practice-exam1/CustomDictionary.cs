@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+
 namespace Practice_exam1
 {
     public class CustomDictionary
@@ -12,7 +14,8 @@ namespace Practice_exam1
         public string DictionaryType;
         private List<WordTranslation> WordTranslations = new List<WordTranslation>();
         private IOManager io = new IOManager();
-        private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
+        //private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
+        private string path = Directory.GetCurrentDirectory() + @"\Dictionaries";
 
         public CustomDictionary() { }
         public CustomDictionary(string dictionaryType)
@@ -27,9 +30,13 @@ namespace Practice_exam1
 
         public void ViewAllWords(string dictionaryType)
         {
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
-            foreach(WordTranslation wordTranslation in WordTranslations)
+            foreach (WordTranslation wordTranslation in WordTranslations)
             {
                 wordTranslation.Display();
             }
@@ -37,7 +44,11 @@ namespace Practice_exam1
 
         public int DisplayWordsToSelect(string dictionaryType)
         {
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
             int index = 1;
             foreach(WordTranslation wordTranslation in WordTranslations)
@@ -54,7 +65,11 @@ namespace Practice_exam1
         public WordTranslation FindWord(string word, string dictionaryType)
         {
             //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
             WordTranslation wordTranslation = WordTranslations.Find(w => w.Word == word);
 
@@ -92,7 +107,11 @@ namespace Practice_exam1
                 } while (input.ToLower() != "e");
 
                 //read from file
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+                string fullPath = Path.Combine(path, dictionaryType + ".json");
+                if(File.Exists(fullPath))
+                {
+                    WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+                }
 
                 WordTranslations.Add(new WordTranslation(key, values));
                 Console.WriteLine("word added success");
@@ -111,9 +130,13 @@ namespace Practice_exam1
             int selected = DisplayWordsToSelect(dictionaryType);
 
             //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);        
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
-            if(selected > 0 && selected <= WordTranslations.Count)
+            if (selected > 0 && selected <= WordTranslations.Count)
             {
                 WordTranslation wordTranslation = WordTranslations[selected - 1];
                 wordTranslation.addTranslation(dictionaryType);
@@ -132,9 +155,13 @@ namespace Practice_exam1
             int selected = DisplayWordsToSelect(dictionaryType);
 
             //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
-            if(selected > 0 && selected <= WordTranslations.Count)
+            if (selected > 0 && selected <= WordTranslations.Count)
             {
                 WordTranslations.RemoveAt(selected - 1);
                 Console.WriteLine("word removed success");
@@ -153,7 +180,11 @@ namespace Practice_exam1
             int selected = DisplayWordsToSelect(dictionaryType);
 
             //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
             if (selected > 0 && selected <= WordTranslations.Count)
             {
@@ -174,12 +205,19 @@ namespace Practice_exam1
             int selection = DisplayWordsToSelect(dictionaryType);
 
             //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
-            if(selection > 0 && selection <= WordTranslations.Count)
+            if (selection > 0 && selection <= WordTranslations.Count)
             {
                 WordTranslation wordTranslation = WordTranslations[selection - 1];
                 wordTranslation.replaceWord(WordTranslations);
+
+                //write to file
+                io.WriteJson(path, dictionaryType, WordTranslations);
             }
             else
             {
@@ -192,7 +230,11 @@ namespace Practice_exam1
             int selection = DisplayWordsToSelect(dictionaryType);
 
             //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            string fullPath = Path.Combine(path, dictionaryType + ".json");
+            if (File.Exists(fullPath))
+            {
+                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            }
 
             if (selection > 0 && selection <= WordTranslations.Count)
             {
