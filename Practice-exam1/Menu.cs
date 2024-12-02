@@ -12,7 +12,6 @@ namespace Practice_exam1
         private List<CustomDictionary> Dictionaries = new List<CustomDictionary>();
         private CustomDictionary dictionary;
         private IOManager io = new IOManager();
-        //private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
         private string path = Directory.GetCurrentDirectory() + @"\Dictionaries";
 
         public void StartMenu()
@@ -27,7 +26,7 @@ namespace Practice_exam1
             switch(option)
             {
                 case 1: Create(); break;
-                case 2: Show(); StartMenu(); break;
+                case 2: Show(); Console.WriteLine(); StartMenu(); break;
                 case 3: Select(); break;
                 default: StartMenu(); break;
             }
@@ -39,25 +38,27 @@ namespace Practice_exam1
             string type = Console.ReadLine();
 
             //check if file type already exist
-            List<FileInfo> files = io.LoadFiles(path);
-            
-            if(files.Where(file => file.Name == type) == null)
+            List<FileInfo> files = io.LoadFiles(path); 
+            //what if in folder, there's no file yet
+
+            if(files.Find(f => io.GetFileName(f) == type) == null)
             {
                 Dictionaries.Add(new CustomDictionary(type));
-                Console.WriteLine("dictionary added success");
                 io.WriteJson(path, type, new List<WordTranslation>());
+                Console.WriteLine("dictionary added success");
             }
             else
             {
-                Console.WriteLine("dictionary type already exist");
+                Console.WriteLine("dictionary type already exist\n");
             }
 
+            Console.WriteLine();
             StartMenu();
         }
 
         public void Show()
         {
-            Console.WriteLine("Dictionaries...");
+            Console.WriteLine("\nDictionaries...");
             List<FileInfo> dictionaries = io.LoadFiles(path);
 
             int index = 1;
@@ -86,7 +87,6 @@ namespace Practice_exam1
                 {
                     DictionaryType = io.GetFileName(file)
                 }).ToList();
-
                 
                 string selectedDictionary = Dictionaries[selected - 1].DictionaryType;
                 Console.WriteLine($"Dictionary {selectedDictionary} is selected.");
@@ -97,7 +97,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("invalid selection\n");
             }
 
             StartMenu();

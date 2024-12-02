@@ -29,7 +29,9 @@ namespace Practice_exam1
 
         public void addTranslation(string dictionaryType)
         {
-            Console.Write("Enter translation: ");
+            Display();
+
+            Console.Write("Add translation: ");
             string translation = Console.ReadLine(); 
 
             if (!Translations.Contains(translation))
@@ -48,6 +50,7 @@ namespace Practice_exam1
             if(Translations.Count > 1)
             {
                 Display();
+
                 Console.Write("Select translation to remove: ");
                 int selected = int.Parse(Console.ReadLine());
 
@@ -67,30 +70,30 @@ namespace Practice_exam1
             }
         }
 
-        public void replaceWord(List<WordTranslation> WordTranslations)
-        {
-            Console.Write("Enter new word: ");
-            string newWord = Console.ReadLine();
+//        public void replaceWord(List<WordTranslation> WordTranslations)
+//        {
+//            Console.Write("Enter new word: ");
+//            string newWord = Console.ReadLine();
 
-            bool exist = false;
-            foreach (WordTranslation wordTranslation in WordTranslations)
-            {
-                if (wordTranslation.Word == newWord)
-                {
-;                   exist = true;
-                }
-            }
+//            bool exist = false;
+//            foreach (WordTranslation wordTranslation in WordTranslations)
+//            {
+//                if (wordTranslation.Word == newWord)
+//                {
+//;                   exist = true;
+//                }
+//            }
 
-            if(exist == true)
-            {
-                Console.WriteLine("word already exist");
-            }
-            else
-            {
-                Word = newWord;
-                Console.WriteLine("word replaced success");
-            }
-        }
+//            if(exist == true)
+//            {
+//                Console.WriteLine("word already exist");
+//            }
+//            else
+//            {
+//                Word = newWord;
+//                Console.WriteLine("word replaced success");
+//            }
+//        }
 
         public void replaceTranslation()
         {

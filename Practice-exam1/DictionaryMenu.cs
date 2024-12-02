@@ -17,12 +17,14 @@ namespace Practice_exam1
 
         public void StartDictionaryMenu(string dictionaryType)
         {
+            Console.WriteLine();
             Console.WriteLine(@"========== Dictionary Menu ==========
 1. Add word/translation
 2. Remove word/translation
 3. Replace word/translation
 4. Search word
 5. Show all words
+6. Export word
 0. Back to main menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -34,6 +36,7 @@ namespace Practice_exam1
                 case 3: ReplaceWordTranslation(dictionaryType); break;
                 case 4: SearchWord(dictionaryType); break;
                 case 5: ShowAllWords(dictionaryType); break;
+                case 6: ExportWord(dictionaryType); break;
                 case 0: BackToMainMenu(); break;
                 default: StartDictionaryMenu(dictionaryType); break;
             }
@@ -41,8 +44,9 @@ namespace Practice_exam1
 
         public void AddWordTranslation(string dictionaryType)
         {
-            Console.WriteLine(@" 1. Add word with translations
- 2. Add translation to existing word
+            Console.WriteLine();
+            Console.WriteLine(@"1. Add word with translations
+2. Add translation to existing word
  0. Back to menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -70,8 +74,9 @@ namespace Practice_exam1
 
         public void RemoveWordTranslation(string dictionaryType)
         {
-            Console.WriteLine(@" 1. Remove word
- 2. Remove translation from existing word
+            Console.WriteLine();
+            Console.WriteLine(@"1. Remove word
+2. Remove translation from existing word
  0. Back to menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -99,8 +104,9 @@ namespace Practice_exam1
 
         public void ReplaceWordTranslation(string dictionaryType)
         {
-            Console.WriteLine(@" 1. Replace word
- 2. Replace translation from existing word
+            Console.WriteLine();
+            Console.WriteLine(@"1. Replace word
+2. Replace translation from existing word
  0. Back to menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
@@ -128,7 +134,7 @@ namespace Practice_exam1
 
         public void SearchWord(string dictionaryType)
         {
-            Console.Write("Search word: ");
+            Console.Write("\nSearch word: ");
             string key = Console.ReadLine();
 
             dictionary.SearchWord(key, dictionaryType);
@@ -141,8 +147,12 @@ namespace Practice_exam1
             StartDictionaryMenu(dictionaryType);
         }
 
-        
+        public void ExportWord(string dictionaryType)
+        {
+            dictionary.exportWord(dictionaryType);
+            StartDictionaryMenu(dictionaryType);
+        }
 
-        public void BackToMainMenu() { }
+        public void BackToMainMenu() { Console.WriteLine(); }
     }
 }

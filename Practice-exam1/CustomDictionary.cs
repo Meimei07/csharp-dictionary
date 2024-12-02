@@ -14,8 +14,8 @@ namespace Practice_exam1
         public string DictionaryType;
         private List<WordTranslation> WordTranslations = new List<WordTranslation>();
         private IOManager io = new IOManager();
-        //private string path = "D:\\C# term2\\Exam github clone\\csharp-dictionary\\Practice-exam1\\bin\\Debug\\Dictionaries";
         private string path = Directory.GetCurrentDirectory() + @"\Dictionaries";
+        private string exportPath = Directory.GetCurrentDirectory() + @"\Export";
 
         public CustomDictionary() { }
         public CustomDictionary(string dictionaryType)
@@ -36,6 +36,7 @@ namespace Practice_exam1
                 WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
             }
 
+            Console.WriteLine();
             foreach (WordTranslation wordTranslation in WordTranslations)
             {
                 wordTranslation.Display();
@@ -50,6 +51,7 @@ namespace Practice_exam1
                 WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
             }
 
+            Console.WriteLine();
             int index = 1;
             foreach(WordTranslation wordTranslation in WordTranslations)
             {
@@ -85,7 +87,7 @@ namespace Practice_exam1
 
         public void AddWord(string dictionaryType)
         {
-            Console.Write("Enter word: ");
+            Console.Write("\nAdd word: ");
             string key = Console.ReadLine();
 
             //check if word already exist
@@ -103,7 +105,15 @@ namespace Practice_exam1
                         break;
                     }
 
-                    values.Add(input);
+                    if (!values.Contains(input))
+                    {
+                        values.Add(input);
+                    }
+                    else
+                    {
+                        Console.WriteLine("translation alrady exist");
+                    }
+
                 } while (input.ToLower() != "e");
 
                 //read from file
@@ -114,10 +124,11 @@ namespace Practice_exam1
                 }
 
                 WordTranslations.Add(new WordTranslation(key, values));
-                Console.WriteLine("word added success");
 
                 //write to file
                 io.WriteJson(path, dictionaryType, WordTranslations);
+                
+                Console.WriteLine("word added success");
             }
             else
             {
@@ -164,10 +175,11 @@ namespace Practice_exam1
             if (selected > 0 && selected <= WordTranslations.Count)
             {
                 WordTranslations.RemoveAt(selected - 1);
-                Console.WriteLine("word removed success");
 
                 //write to file
                 io.WriteJson(path, dictionaryType, WordTranslations);
+
+                Console.WriteLine("word removed success");
             }
             else
             {
@@ -214,10 +226,34 @@ namespace Practice_exam1
             if (selection > 0 && selection <= WordTranslations.Count)
             {
                 WordTranslation wordTranslation = WordTranslations[selection - 1];
-                wordTranslation.replaceWord(WordTranslations);
+                //wordTranslation.replaceWord(WordTranslations);
 
-                //write to file
-                io.WriteJson(path, dictionaryType, WordTranslations);
+                Console.Write("Enter new word: ");
+                string newWord = Console.ReadLine();
+
+                bool exist = false;
+                foreach (WordTranslation wordTrans in WordTranslations)
+                {
+                    if (wordTrans.Word == newWord)
+                    {
+                        exist = true;
+                    }
+                }
+
+                if (exist == true)
+                {
+                    Console.WriteLine("word already exist");
+                }
+                else
+                {
+                    wordTranslation.Word = newWord;
+
+                    //write to file
+                    io.WriteJson(path, dictionaryType, WordTranslations);
+                    
+                    Console.WriteLine("word replaced success");
+                }
+
             }
             else
             {
@@ -260,6 +296,26 @@ namespace Practice_exam1
             else
             {
                 Console.WriteLine("word doesn't exist");
+            }
+        }
+
+        public void exportWord(string dictionaryType)
+        {
+            int selected = DisplayWordsToSelect(dictionaryType);
+
+            //read from file
+            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+
+            if(selected > 0 && selected <= WordTranslations.Count)
+            {
+                WordTranslation wordTranslation = WordTranslations[selected - 1];
+
+                io.WriteJson(exportPath, wordTranslation.Word, wordTranslation);
+                Console.WriteLine("word exported success");
+            }
+            else
+            {
+                Console.WriteLine("invalid selection");
             }
         }
     }
