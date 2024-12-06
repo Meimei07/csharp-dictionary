@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Practice_exam1
 {
@@ -27,14 +28,24 @@ namespace Practice_exam1
             this.Translations = translations;
         }
 
+        public void Display()
+        {
+            Console.Write($"-{Word} --> ");
+            for (int i = 0; i < Translations.Count; i++)
+            {
+                Console.Write($"   {i + 1}. {Translations[i]}");
+            }
+            Console.WriteLine();
+        }
+
         public void addTranslation(string dictionaryType)
         {
+            Console.WriteLine();
             Display();
-
             Console.Write("Add translation: ");
-            string translation = Console.ReadLine(); 
+            string translation = Console.ReadLine();
 
-            if (!Translations.Contains(translation))
+            if (Translations.Find(trans => trans.ToLower() == translation.ToLower()) == null)
             {
                 Translations.Add(translation);
                 Console.WriteLine("translation added success");
@@ -49,8 +60,8 @@ namespace Practice_exam1
         {
             if(Translations.Count > 1)
             {
+                Console.WriteLine();
                 Display();
-
                 Console.Write("Select translation to remove: ");
                 int selected = int.Parse(Console.ReadLine());
 
@@ -70,33 +81,9 @@ namespace Practice_exam1
             }
         }
 
-//        public void replaceWord(List<WordTranslation> WordTranslations)
-//        {
-//            Console.Write("Enter new word: ");
-//            string newWord = Console.ReadLine();
-
-//            bool exist = false;
-//            foreach (WordTranslation wordTranslation in WordTranslations)
-//            {
-//                if (wordTranslation.Word == newWord)
-//                {
-//;                   exist = true;
-//                }
-//            }
-
-//            if(exist == true)
-//            {
-//                Console.WriteLine("word already exist");
-//            }
-//            else
-//            {
-//                Word = newWord;
-//                Console.WriteLine("word replaced success");
-//            }
-//        }
-
         public void replaceTranslation()
         {
+            Console.WriteLine();
             Display();
             Console.Write("Select translation to replace: ");
             int selected = int.Parse(Console.ReadLine());
@@ -106,7 +93,7 @@ namespace Practice_exam1
                 Console.Write("Enter new translation: ");
                 string newTranslation = Console.ReadLine();
 
-                if(!Translations.Contains(newTranslation))
+                if (Translations.Find(trans => trans.ToLower() == newTranslation.ToLower()) == null)
                 {
                     Translations[selected - 1] = newTranslation;
                     Console.WriteLine("translation replaced success");
@@ -120,16 +107,6 @@ namespace Practice_exam1
             {
                 Console.WriteLine("invalid selection");
             }
-        }
-
-        public void Display()
-        {
-            Console.Write(Word + " --> ");
-            for(int i=0; i<Translations.Count; i++)
-            {
-                Console.Write($"   {i + 1}. {Translations[i]}");
-            }
-            Console.WriteLine();
         }
     }
 }

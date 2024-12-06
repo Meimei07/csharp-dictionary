@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace Practice_exam1
 {
@@ -16,7 +17,7 @@ namespace Practice_exam1
 
         public void StartMenu()
         {
-            Console.WriteLine(@"========== Menu ==========
+            Console.WriteLine(@"========== Main Menu ==========
 1. Create dictionary
 2. Show dictionaries
 3. Select dictionary");
@@ -38,10 +39,9 @@ namespace Practice_exam1
             string type = Console.ReadLine();
 
             //check if file type already exist
-            List<FileInfo> files = io.LoadFiles(path); 
-            //what if in folder, there's no file yet
+            List<FileInfo> files = io.LoadFiles(path);
 
-            if(files.Find(f => io.GetFileName(f) == type) == null)
+            if (files.Find(f => io.GetFileName(f).ToLower() == type.ToLower()) == null)
             {
                 Dictionaries.Add(new CustomDictionary(type));
                 io.WriteJson(path, type, new List<WordTranslation>());
@@ -49,7 +49,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("dictionary type already exist\n");
+                Console.WriteLine("dictionary type already exist");
             }
 
             Console.WriteLine();
@@ -58,17 +58,19 @@ namespace Practice_exam1
 
         public void Show()
         {
-            Console.WriteLine("\nDictionaries...");
             List<FileInfo> dictionaries = io.LoadFiles(path);
-
-            int index = 1;
-            if(dictionaries.Count > 0)
+            if (dictionaries.Count == 0)
             {
-                foreach(FileInfo dictionary in dictionaries)
-                {
-                    Console.WriteLine($"{index}. {io.GetFileName(dictionary)}");
-                    index++;
-                }
+                Console.WriteLine("no available dictionary\n");
+                StartMenu();
+            }
+
+            Console.WriteLine("\nDictionaries...");
+            int index = 1;       
+            foreach(FileInfo dictionary in dictionaries)
+            {
+                Console.WriteLine($"{index}. {io.GetFileName(dictionary)}");
+                index++;
             }
         }
 

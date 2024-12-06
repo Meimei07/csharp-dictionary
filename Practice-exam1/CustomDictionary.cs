@@ -28,43 +28,7 @@ namespace Practice_exam1
             Console.WriteLine($" {DictionaryType}");
         }
 
-        public void ViewAllWords(string dictionaryType)
-        {
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
-
-            Console.WriteLine();
-            foreach (WordTranslation wordTranslation in WordTranslations)
-            {
-                wordTranslation.Display();
-            }
-        }
-
-        public int DisplayWordsToSelect(string dictionaryType)
-        {
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
-
-            Console.WriteLine();
-            int index = 1;
-            foreach(WordTranslation wordTranslation in WordTranslations)
-            {
-                Console.WriteLine($"{index}. {wordTranslation.Word}");
-                index++;
-            }
-            Console.Write("Select word: ");
-            int selected = int.Parse(Console.ReadLine());
-
-            return selected;
-        }
-
-        public WordTranslation FindWord(string word, string dictionaryType)
+        public void FileExist(string dictionaryType)
         {
             //read from file
             string fullPath = Path.Combine(path, dictionaryType + ".json");
@@ -72,8 +36,50 @@ namespace Practice_exam1
             {
                 WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
             }
+        }
 
-            WordTranslation wordTranslation = WordTranslations.Find(w => w.Word == word);
+        public bool ViewAllWords(string dictionaryType)
+        {
+            FileExist(dictionaryType);
+
+            if(WordTranslations.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine();
+                int index = 1;
+                foreach (WordTranslation wordTranslation in WordTranslations)
+                {
+                    Console.Write(index);
+                    wordTranslation.Display();
+                    index++;
+                }
+                return true;
+            }
+        }
+
+        public int DisplayWordsToSelect(string dictionaryType)
+        {
+            if(ViewAllWords(dictionaryType) == true)
+            {
+                Console.Write("Select word: ");
+                int selected = int.Parse(Console.ReadLine());
+
+                return selected;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public WordTranslation FindWord(string word, string dictionaryType)
+        {
+            FileExist(dictionaryType);
+
+            WordTranslation wordTranslation = WordTranslations.Find(w => w.Word.ToLower() == word.ToLower());
 
             if(wordTranslation != null)
             {
@@ -105,23 +111,18 @@ namespace Practice_exam1
                         break;
                     }
 
-                    if (!values.Contains(input))
+                    if(values.Find(value => value.ToLower() == input.ToLower()) == null)
                     {
                         values.Add(input);
                     }
                     else
                     {
-                        Console.WriteLine("translation alrady exist");
+                        Console.WriteLine("translation already exist");
                     }
 
                 } while (input.ToLower() != "e");
 
-                //read from file
-                string fullPath = Path.Combine(path, dictionaryType + ".json");
-                if(File.Exists(fullPath))
-                {
-                    WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-                }
+                FileExist(dictionaryType);
 
                 WordTranslations.Add(new WordTranslation(key, values));
 
@@ -140,12 +141,7 @@ namespace Practice_exam1
         {
             int selected = DisplayWordsToSelect(dictionaryType);
 
-            //read from file
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
+            FileExist(dictionaryType);
 
             if (selected > 0 && selected <= WordTranslations.Count)
             {
@@ -157,7 +153,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("no available word");
             }
         }
 
@@ -165,12 +161,7 @@ namespace Practice_exam1
         {
             int selected = DisplayWordsToSelect(dictionaryType);
 
-            //read from file
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
+            FileExist(dictionaryType);
 
             if (selected > 0 && selected <= WordTranslations.Count)
             {
@@ -183,7 +174,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("no available word");
             }
         }
 
@@ -191,12 +182,7 @@ namespace Practice_exam1
         {
             int selected = DisplayWordsToSelect(dictionaryType);
 
-            //read from file
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
+            FileExist(dictionaryType);
 
             if (selected > 0 && selected <= WordTranslations.Count)
             {
@@ -208,7 +194,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("no available word");
             }
         }
 
@@ -216,12 +202,7 @@ namespace Practice_exam1
         {
             int selection = DisplayWordsToSelect(dictionaryType);
 
-            //read from file
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
+            FileExist(dictionaryType);
 
             if (selection > 0 && selection <= WordTranslations.Count)
             {
@@ -253,11 +234,10 @@ namespace Practice_exam1
                     
                     Console.WriteLine("word replaced success");
                 }
-
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("no available word");
             }
         }
 
@@ -265,12 +245,7 @@ namespace Practice_exam1
         {
             int selection = DisplayWordsToSelect(dictionaryType);
 
-            //read from file
-            string fullPath = Path.Combine(path, dictionaryType + ".json");
-            if (File.Exists(fullPath))
-            {
-                WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
-            }
+            FileExist(dictionaryType);
 
             if (selection > 0 && selection <= WordTranslations.Count)
             {
@@ -282,7 +257,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("no available word");
             }
         }
 
@@ -295,7 +270,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("word doesn't exist");
+                Console.WriteLine($"word ({word}) doesn't exist");
             }
         }
 
@@ -303,10 +278,9 @@ namespace Practice_exam1
         {
             int selected = DisplayWordsToSelect(dictionaryType);
 
-            //read from file
-            WordTranslations = io.ReadJson<List<WordTranslation>>(path, dictionaryType);
+            FileExist(dictionaryType);
 
-            if(selected > 0 && selected <= WordTranslations.Count)
+            if (selected > 0 && selected <= WordTranslations.Count)
             {
                 WordTranslation wordTranslation = WordTranslations[selected - 1];
 
@@ -315,7 +289,7 @@ namespace Practice_exam1
             }
             else
             {
-                Console.WriteLine("invalid selection");
+                Console.WriteLine("no available word");
             }
         }
     }

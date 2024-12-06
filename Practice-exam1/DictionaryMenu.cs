@@ -23,7 +23,7 @@ namespace Practice_exam1
 2. Remove word/translation
 3. Replace word/translation
 4. Search word
-5. Show all words
+5. Display words
 6. Export word
 0. Back to main menu");
             Console.Write("Enter: ");
@@ -47,7 +47,7 @@ namespace Practice_exam1
             Console.WriteLine();
             Console.WriteLine(@"1. Add word with translations
 2. Add translation to existing word
- 0. Back to menu");
+0. Back to menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
@@ -77,7 +77,7 @@ namespace Practice_exam1
             Console.WriteLine();
             Console.WriteLine(@"1. Remove word
 2. Remove translation from existing word
- 0. Back to menu");
+0. Back to menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
@@ -107,7 +107,7 @@ namespace Practice_exam1
             Console.WriteLine();
             Console.WriteLine(@"1. Replace word
 2. Replace translation from existing word
- 0. Back to menu");
+0. Back to menu");
             Console.Write("Enter: ");
             int option = int.Parse(Console.ReadLine());
 
@@ -137,13 +137,16 @@ namespace Practice_exam1
             Console.Write("\nSearch word: ");
             string key = Console.ReadLine();
 
-            dictionary.SearchWord(key, dictionaryType);
+            dictionary.SearchWord(key.ToLower(), dictionaryType);
             StartDictionaryMenu(dictionaryType);
         }
 
         public void ShowAllWords(string dictionaryType)
         {
-            dictionary.ViewAllWords(dictionaryType);
+            if(dictionary.ViewAllWords(dictionaryType) != true)
+            {
+                Console.WriteLine("no available word");
+            }
             StartDictionaryMenu(dictionaryType);
         }
 

@@ -1,23 +1,81 @@
 [
-  {
-    "Word": "cup",
-    "Translations": [
-      "glass"
-    ]
-  },
-  {
-    "Word": "clothes",
-    "Translations": [
-      "shirt",
-      "t-shirt"
-    ]
-  },
-  {
-    "Word": "drink",
-    "Translations": [
-      "coke",
-      "water",
-      "juice"
-    ]
-  }
+    {
+        "Word": "Orange",
+        "Translations": [
+            "a fruit",
+            "a color",
+            "a tree"
+        ]
+    },
+    {
+        "Word": "Bank",
+        "Translations": [
+            "a financial institution",
+            "the side of a river",
+            "a slope or mound"
+        ]
+    },
+    {
+        "Word": "jump",
+        "Translations": [
+            "to move quickly on foot",
+            "to manage or operate",
+            "to flow"
+        ]
+    },
+    {
+        "Word": "Light",
+        "Translations": [
+            "not heavy",
+            "a pale color"
+        ]
+    },
+    {
+        "Word": "Mouse",
+        "Translations": [
+            "a small rodent",
+            "a computer input device",
+            "to move stealthily"
+        ]
+    },
+    {
+        "Word": "Spring",
+        "Translations": [
+            "a season",
+            "a coil that stores energy",
+            "to jump or leap"
+        ]
+    },
+    {
+        "Word": "Book",
+        "Translations": [
+            "a collection of written pages",
+            "to arrange for someone to have a seat or room",
+            "a set of records"
+        ]
+    },
+    {
+        "Word": "Key",
+        "Translations": [
+            "a tool to open locks",
+            "a critical or essential element",
+            "a set of musical notes"
+        ]
+    },
+    {
+        "Word": "Watch",
+        "Translations": [
+            "a device for telling time",
+            "to observe closely",
+            "a period of vigil"
+        ]
+    },
+    {
+        "Word": "Fly",
+        "Translations": [
+            "to move through the air",
+            "a type of insect",
+            "to operate an aircraft"
+        ]
+    }
 ]

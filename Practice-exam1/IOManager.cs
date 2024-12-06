@@ -25,10 +25,10 @@ namespace Practice_exam1
         public T ReadJson<T>(string path, string fileName)
         {
             string fullPath = path + @"\" + fileName + extension;
-            StreamReader streamReader=new StreamReader(fullPath);
-            string cotent = streamReader.ReadToEnd();
+            StreamReader streamReader = new StreamReader(fullPath);
+            string content = streamReader.ReadToEnd();
             streamReader.Close();
-            return JsonConvert.DeserializeObject<T>(cotent);
+            return JsonConvert.DeserializeObject<T>(content);
         }
 
         public List<FileInfo> LoadFiles(string path)
