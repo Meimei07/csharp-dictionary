@@ -25,3 +25,13 @@ D:\Meimei\csharp-dictionary\Practice-exam1\bin\Debug\Practice-exam1.pdb
 D:\Meimei\csharp-dictionary\Practice-exam1\bin\Debug\Newtonsoft.Json.dll
 D:\Meimei\csharp-dictionary\Practice-exam1\bin\Debug\Newtonsoft.Json.xml
 D:\Meimei\csharp-dictionary\Practice-exam1\obj\Debug\Practice.223CD4CA.Up2Date
+D:\csharp-dictionary\Practice-exam1\bin\Debug\Practice-exam1.exe.config
+D:\csharp-dictionary\Practice-exam1\bin\Debug\Practice-exam1.exe
+D:\csharp-dictionary\Practice-exam1\bin\Debug\Practice-exam1.pdb
+D:\csharp-dictionary\Practice-exam1\bin\Debug\Newtonsoft.Json.dll
+D:\csharp-dictionary\Practice-exam1\bin\Debug\Newtonsoft.Json.xml
+D:\csharp-dictionary\Practice-exam1\obj\Debug\Practice-exam1.csproj.AssemblyReference.cache
+D:\csharp-dictionary\Practice-exam1\obj\Debug\Practice-exam1.csproj.CoreCompileInputs.cache
+D:\csharp-dictionary\Practice-exam1\obj\Debug\Practice.223CD4CA.Up2Date
+D:\csharp-dictionary\Practice-exam1\obj\Debug\Practice-exam1.exe
+D:\csharp-dictionary\Practice-exam1\obj\Debug\Practice-exam1.pdb
