@@ -29,4 +29,4 @@ This is a console-based Dictionary Application built in C# that allows users to 
 
 demonstration of adding new word/meaning and view all the words/meaning in the dictionary
 
-![add new word demo](Assets\dictionary-demo.jpg)
+![add new word demo](Assets/dictionary-demo.jpg)
